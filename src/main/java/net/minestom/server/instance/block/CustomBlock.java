@@ -13,6 +13,9 @@ import net.minestom.server.instance.BlockModifier;
 import net.minestom.server.instance.Chunk;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.network.packet.server.play.BlockBreakAnimationPacket;
+import net.minestom.server.network.packet.server.play.EntityEffectPacket;
+import net.minestom.server.potion.Potion;
+import net.minestom.server.potion.PotionEffect;
 import net.minestom.server.utils.BlockPosition;
 import net.minestom.server.utils.time.UpdateOption;
 import net.minestom.server.utils.validate.Check;
@@ -38,6 +41,7 @@ import java.util.Set;
  */
 public abstract class CustomBlock {
 
+    public static boolean ONLY_CUSTOM_BLOCK = false;
     public static final byte MAX_STAGE = 10;
 
     /**
@@ -492,5 +496,19 @@ public abstract class CustomBlock {
             this.breakIdMap.removeInt(blockPosition);
         }
 
+    }
+
+    public static void setPlayerEffect(Player player) {
+        EntityEffectPacket entityEffectPacket = new EntityEffectPacket();
+        entityEffectPacket.entityId = player.getEntityId();
+        entityEffectPacket.potion = new Potion(
+                PotionEffect.MINING_FATIGUE,
+                (byte) -1,
+                Integer.MAX_VALUE,
+                false,
+                false,
+                false
+        );
+        player.getPlayerConnection().sendPacket(entityEffectPacket);
     }
 }

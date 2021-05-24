@@ -214,6 +214,8 @@ public class PlayerDiggingListener {
      * @param player the player to add the effect to
      */
     private static void addEffect(@NotNull Player player) {
+        if (CustomBlock.ONLY_CUSTOM_BLOCK) return;
+
         playersEffect.add(player);
 
         EntityEffectPacket entityEffectPacket = new EntityEffectPacket();
@@ -237,6 +239,8 @@ public class PlayerDiggingListener {
      * @param player the player to remove the effect to
      */
     public static void removeEffect(@NotNull Player player) {
+        if (CustomBlock.ONLY_CUSTOM_BLOCK) return;
+
         if (playersEffect.contains(player)) {
             playersEffect.remove(player);
 
